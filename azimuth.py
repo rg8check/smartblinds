@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import pysolar as pys
 import datetime
-import time
 
 #date = datetime.datetime.now(tz=datetime.timezone(-datetime.timedelta(hours=5)))
 #print(pys.solar.get_altitude(42.206, -71.382, date))
@@ -39,6 +38,7 @@ def getlong():
 
 #%% main methods to be ran
 def getAlt(latitude=None, longitude=None):
+    import time
     if latitude is None:
         latitude = getlat()
     if longitude is None:
@@ -49,6 +49,7 @@ def getAlt(latitude=None, longitude=None):
     return pys.solar.get_altitude(latitude, longitude, date)
 
 def getAz(latitude=None, longitude=None):
+    import time
     if latitude is None:
         latitude = getlat()
     if longitude is None:
