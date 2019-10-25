@@ -16,7 +16,7 @@ class blinds:
         self.faceDir = faceDir
         self.latitude = latitude
         self.longitude = longitude
-        self.s = AngularServo(17, min_Angle=closedDownAngle, max_Angle=closedUpAngle)
+        self.s = AngularServo(17, min_angle=closedDownAngle, max_angle=closedUpAngle)
         
     #%% class methods
     
