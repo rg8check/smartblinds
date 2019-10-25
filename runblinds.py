@@ -7,8 +7,10 @@ Created on Wed Oct  9 14:08:49 2019
 import azimuth as az
 import blinds as bl
 import datetime
+import time
 
-date = datetime.datetime.now()
+timezone = datetime.timezone(datetime.timedelta(seconds=time.timezone))
+date = datetime.datetime.now(tz=timezone)
 print(date.hour, date.minute)
     
 def runBlinds():

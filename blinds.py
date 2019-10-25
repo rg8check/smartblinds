@@ -16,7 +16,10 @@ class blinds:
         self.faceDir = faceDir
         self.latitude = latitude
         self.longitude = longitude
-        self.s = AngularServo(17, min_angle=closedDownAngle, max_angle=closedUpAngle)
+        try:
+            self.s = AngularServo(17, min_angle=closedDownAngle, max_angle=closedUpAngle)
+        except Exception as e:
+            print(e, "this computer has no GPIO pins")
         
     #%% class methods
     
