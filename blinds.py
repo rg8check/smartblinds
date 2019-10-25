@@ -8,7 +8,7 @@ import azimuth
 from gpiozero import AngularServo
 
 class blinds:
-    def __init__(self, faceDir=0, latitude=78, longitude=-39, closedUpAngle=90, closedDownAngle=-90, currentAngle=0):
+    def __init__(self, faceDir=0, latitude=36, longitude=-79, closedUpAngle=90, closedDownAngle=-90, currentAngle=0):
         self.closedUpAngle = closedUpAngle
         self.closedDownAngle = closedDownAngle
         self.openAngle = (self.closedUpAngle + self.closedDownAngle) / 2
@@ -16,7 +16,7 @@ class blinds:
         self.faceDir = faceDir
         self.latitude = latitude
         self.longitude = longitude
-        self.s = AngularServo(17, minAngle=closedDownAngle, maxAngle=closedUpAngle)
+        self.s = AngularServo(17, min_Angle=closedDownAngle, max_Angle=closedUpAngle)
         
     #%% class methods
     
@@ -25,7 +25,7 @@ class blinds:
         f.write(str([self.faceDir, self.latitude, self.longitude, self.closedUpAngle, self.closedDownAngle, self.currentAngle]))
         f.close()
         
-    def getBlindFileInfo(self):
+    def setBlindFileInfo(self):
         f = open('blindinfo.dat', 'r')
         info = f.read()
         #turn list in string format to list in list format
