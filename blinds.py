@@ -16,7 +16,10 @@ class blinds:
         self.faceDir = faceDir
         self.latitude = latitude
         self.longitude = longitude
-        self.s = AngularServo(17, min_angle=closedDownAngle, max_angle=closedUpAngle)
+        try:
+            self.s = AngularServo(17, min_angle=closedDownAngle, max_angle=closedUpAngle)
+        except Exception as e:
+            print(e, "this computer has no GPIO pins")
         
     #%% class methods
     
@@ -52,9 +55,7 @@ class blinds:
         self.setAngle(0)
     
     def setSunOpen(self):
-        rangeA = self.closedUpAngle - self.openAngle
-        ratio = azimuth.getAlt(self.latitude, self.longitude) / 90
-        rotateamount = ratio * rangeA
+        rotateamount = azimuth.getAlt(self.latitude, self.longitude)
         
         if rotateamount > self.closedUpAngle: #don't over-rotate
             rotateamount = 0
@@ -62,8 +63,7 @@ class blinds:
             rotateamount = 0
         if rotateamount < 0:
             rotateamount = 0 #don't rotate if sun is below horizon
-        diff = self.openAngle + rotateamount
-        self.setAngle(diff)
+        self.setAngle(rotateamount)
         
     def setClosedUp(self):
         self.setAngle(self.ClosedUpAngle)
