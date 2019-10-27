@@ -16,7 +16,6 @@ print(date.hour, date.minute)
 def runBlinds():
     blind = bl.blinds()
     blind.setBlindFileInfo()
-    blind.calibrate()
     
     date = datetime.datetime.now()
     if 4 < date.month < 10:
@@ -30,5 +29,6 @@ def runBlinds():
     blind.setSunOpen()
     print('Blinds set to face the Sun at {:0.2} degrees'.format((az.getAlt(blind.latitude, blind.longitude))))
     print('Sleeping for 30 min...')
+    blind.saveBlindInfo()
     
 runBlinds()

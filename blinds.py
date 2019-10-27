@@ -16,6 +16,7 @@ class blinds:
         self.faceDir = faceDir
         self.latitude = latitude
         self.longitude = longitude
+        self.s = None
         try:
             self.s = AngularServo(17, min_angle=closedDownAngle, max_angle=closedUpAngle)
         except Exception as e:
@@ -47,9 +48,11 @@ class blinds:
     #%% setter methods
         
     def setAngle(self, angle):
-        if self.currentAngle != angle:
-            self.currentAngle = angle
+        self.currentAngle = angle
+        try:
             self.s.angle = angle
+        except Exception as e:
+            print(e, "this computer has no GPIO pins")
     
     def calibrate(self):
         self.setAngle(0)
@@ -58,12 +61,17 @@ class blinds:
         rotateamount = azimuth.getAlt(self.latitude, self.longitude)
         
         if rotateamount > self.closedUpAngle: #don't over-rotate
-            rotateamount = 0
+            rotateamount = self.closedUpAngle
         if abs(self.faceDir - azimuth.getAz(self.latitude, self.longitude)) > 180: #don't rotate if sun isn't facing the window
-            rotateamount = 0
+            rotateamount = self.closedUpAngle
         if rotateamount < 0:
-            rotateamount = 0 #don't rotate if sun is below horizon
-        self.setAngle(rotateamount)
+            rotateamount = self.closedUpAngle #don't rotate if sun is below horizon
+        if (abs(rotateamount - self.currentAngle)) > 5:
+            print('rotating', rotateamount, self.currentAngle)
+            self.setAngle(rotateamount)
+        else:
+            print('Rotation amount less than 5 degrees')
+            print('Current angle is {}, rotation angle is {}'.format(self.currentAngle, rotateamount))
         
     def setClosedUp(self):
         self.setAngle(self.ClosedUpAngle)
