@@ -4,12 +4,11 @@ Created on Wed Oct  9 14:08:49 2019
 
 @author: codyl
 """
-import azimuth as az
 import blinds as bl
 import datetime
-import time
+from dateutil import tz
 
-timezone = datetime.timezone(datetime.timedelta(seconds=time.timezone))
+timezone = tz.gettz()
 date = datetime.datetime.now(tz=timezone)
 print(date.hour, date.minute)
     
@@ -27,7 +26,6 @@ def runBlinds():
         print('Blinds set to Down')
 
     blind.setSunOpen()
-    print('Blinds set to face the Sun at {:0.2} degrees'.format((az.getAlt(blind.latitude, blind.longitude))))
     print('Sleeping for 30 min...')
     blind.saveBlindInfo()
     

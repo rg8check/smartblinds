@@ -35,7 +35,7 @@ class blinds:
         #turn list in string format to list in list format
         res = info.strip('][').split(', ')
         for k, l in enumerate(res):
-            res[k] = int(l)
+            res[k] = float(l)
         #set angles
         self.closedUpAngle = res[3]
         self.closedDownAngle = res[4]
@@ -61,13 +61,17 @@ class blinds:
         rotateamount = azimuth.getAlt(self.latitude, self.longitude)
         
         if rotateamount > self.closedUpAngle: #don't over-rotate
+            print('Angle > 90')
             rotateamount = self.closedUpAngle
-        if abs(self.faceDir - azimuth.getAz(self.latitude, self.longitude)) > 180: #don't rotate if sun isn't facing the window
+        elif rotateamount < 0:
+            print('Sun has set')
+            rotateamount = self.closedDownAngle #don't rotate if sun is below horizon
+        elif abs(self.faceDir - azimuth.getAz(self.latitude, self.longitude)) > 180: #don't rotate if sun isn't facing the window
+            print('Sun not facing Window')
             rotateamount = self.closedUpAngle
-        if rotateamount < 0:
-            rotateamount = self.closedUpAngle #don't rotate if sun is below horizon
-        if (abs(rotateamount - self.currentAngle)) > 5:
-            print('rotating', rotateamount, self.currentAngle)
+        
+        elif (abs(rotateamount - self.currentAngle)) > 5:
+            print('rotating to  {} from {}'.format(rotateamount, self.currentAngle))
             self.setAngle(rotateamount)
         else:
             print('Rotation amount less than 5 degrees')

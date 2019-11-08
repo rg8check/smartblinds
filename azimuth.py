@@ -36,25 +36,27 @@ def getlong():
 
 #%% main methods to be ran
 def getAlt(latitude=None, longitude=None):
-    import time
     import datetime
+    from dateutil import tz
     if latitude is None:
         latitude = getlat()
     if longitude is None:
         longitude = getlong()
     
-    timezone = datetime.timezone(datetime.timedelta(seconds=time.timezone))
+    timezone = tz.gettz()
     date = datetime.datetime.now(tz=timezone)
+    print('timezone is {}'.format(timezone))
+    print('date acc to getAlt is {}'.format(date))
     return pys.solar.get_altitude(latitude, longitude, date)
 
 def getAz(latitude=None, longitude=None):
     import datetime
-    import time
+    from dateutil import tz
     if latitude is None:
         latitude = getlat()
     if longitude is None:
         longitude = getlong()
     
-    timezone = datetime.timezone(datetime.timedelta(seconds=time.timezone))
+    timezone = tz.gettz()
     date = datetime.datetime.now(tz=timezone)
     return pys.solar.get_azimuth(latitude, longitude, date)
