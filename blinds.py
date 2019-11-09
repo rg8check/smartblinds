@@ -25,12 +25,12 @@ class blinds:
     #%% class methods
     
     def saveBlindInfo(self):
-        f = open('blindinfo.dat', 'w+')
+        f = open('/home/pi/py/blindinfo.dat', 'w+')
         f.write(str([self.faceDir, self.latitude, self.longitude, self.closedUpAngle, self.closedDownAngle, self.currentAngle]))
         f.close()
         
     def setBlindFileInfo(self):
-        f = open('blindinfo.dat', 'r')
+        f = open('/home/pi/py/blindinfo.dat', 'r')
         info = f.read()
         #turn list in string format to list in list format
         res = info.strip('][').split(', ')
@@ -78,7 +78,7 @@ class blinds:
             print('Current angle is {}, rotation angle is {}'.format(self.currentAngle, rotateamount))
         
     def setClosedUp(self):
-        self.setAngle(self.ClosedUpAngle)
+        self.setAngle(self.closedUpAngle)
         
     def setClosedDown(self):
-        self.setAngle(self.ClosedDownAngle)
+        self.setAngle(self.closedDownAngle)
