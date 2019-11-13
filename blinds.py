@@ -6,6 +6,7 @@ Created on Sun Oct  6 14:16:59 2019
 """
 import azimuth
 from gpiozero import AngularServo
+from time import sleep
 
 class blinds:
     def __init__(self, faceDir=0, latitude=36, longitude=-79, closedUpAngle=90, closedDownAngle=-90, currentAngle=0):
@@ -41,6 +42,7 @@ class blinds:
         self.closedDownAngle = res[4]
         self.openAngle = (self.closedUpAngle + self.closedDownAngle) / 2
         self.currentAngle = res[5]
+        self.s.angle = res[5]
         self.faceDir = res[0]
         self.latitude = res[1]
         self.longitude = res[2]
@@ -51,6 +53,7 @@ class blinds:
         self.currentAngle = angle
         try:
             self.s.angle = angle
+            time.sleep(5)
         except Exception as e:
             print(e, "this computer has no GPIO pins")
     
@@ -58,8 +61,8 @@ class blinds:
         self.setAngle(0)
     
     def setSunOpen(self):
+        self.calibrate()
         rotateamount = azimuth.getAlt(self.latitude, self.longitude)
-        
         if rotateamount > self.closedUpAngle: #don't over-rotate
             print('Angle > 90')
             rotateamount = self.closedUpAngle
@@ -78,7 +81,9 @@ class blinds:
             print('Current angle is {}, rotation angle is {}'.format(self.currentAngle, rotateamount))
         
     def setClosedUp(self):
+        self.calibrate()
         self.setAngle(self.closedUpAngle)
         
     def setClosedDown(self):
+        self.calibrate()
         self.setAngle(self.closedDownAngle)
