@@ -16,7 +16,7 @@ def runBlinds():
     blind = bl.blinds()
     blind.setBlindFileInfo()
     
-    date = datetime.datetime.now()
+    date = datetime.datetime.now() # only runs during the summer. 
     if 4 < date.month < 10:
         blind.setClosedDown()
         print('Blinds set to Down')
@@ -25,7 +25,7 @@ def runBlinds():
         blind.setClosedDown()
         print('Blinds set to Down')
 
-    blind.setSunOpen()
+    blind.setSunOpen() # adjusts every thirty minutes
     print('Sleeping for 30 min...')
     blind.saveBlindInfo()
     
