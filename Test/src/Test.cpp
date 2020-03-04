@@ -15,7 +15,7 @@
 //Lets include some libaries
 //#include <lowPower.h>
 #include <math.h>
-
+#include <BH1750Lib.h>
 //Lets  create some variables
 void setup();
 void loop();
@@ -25,6 +25,7 @@ int BH1750_Read(int address);
 void BH1750_Init(int address);
 #line 14 "c:/Users/richa/Documents/School/2019-2020_Classes/EGR_190/Python_files/smartblinds/Test/src/Test.ino"
 Servo myServo;
+BH1750Lib lightSensor;
 const byte NUM_BYTES = 2; //The BH1750 relays data in two bytes
 byte buff[NUM_BYTES]; // creates an array to store data
 int BH1750address = 0x23; // the address of the I2C device
@@ -40,9 +41,11 @@ int collectionNum = 0; // an indexing variable in a for loop. Data is collected 
 
 // // setup() runs once, when the device is first turned on.
 void setup() {
+lightSensor.begin(BH1750LIB_MODE_CONTINUOUSHIGHRES);
 Serial.begin(57600);
 Serial.println("initialising");
-//delay(100); - probably not needed.
+myServo.attach(D3);
+delay(100);// - probably not needed.
 Wire.begin();
 
 }
@@ -78,6 +81,7 @@ int iterNum = 24;
     for(int i = 0; i < 24; i++){
       sleep();
     }
+    collectionNum = 0;
   }
   collectionNum = 0; //resets the collection number
 }

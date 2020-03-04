@@ -6,7 +6,7 @@
 int BH1750address = 0x23; //setting i2c address: do not change; this is what the arduino code will look for when it tries to connect over I2C
 Servo myservo;
 Servo myservo1; // likely a change made to allow the arduino to control multiple servos. If powering more than 1, must use an external power supply.
-const byte TO_READ = 2; //2 byte buffer will enable faster I/O.
+const byte TO_READ = 2; //Data is output in two bytes
 byte buff[TO_READ]; // creates a byte array of size TO_Read that will hold data from the BH1750
 int q = 0; //TODO: figure out what this is.
 
@@ -19,7 +19,7 @@ void sleep(){//reduces power consumption of arduino while not in use
    // LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF); // TODO: download LowPower.h
    //This will sleep the ATMEGA microcontroller, Analog to digital converter, and Brownout detector
    //Works best on non-arduino boards
-   //may not be necessary
+   
     }
 }
 void setup() {
@@ -71,6 +71,7 @@ BH1750_Init(BH1750address); //Initializes the I2C connection at this address
     delay(1000); // delays 1 second
 q++; 
 sleep(); //after adjusting 24 times, it goes to sleep for 30 minutes?
+q=0;
 }
 else{ // does this else correspond with the first or second if statement?
  for(int z = 0; z < 24; z++){
@@ -94,8 +95,8 @@ int BH1750_Read(int address) //most likely example code. Will get data from ligh
   {
     buff[i] = Wire.read();  // receive one byte
 
-   // Serial.print(buff[i], DEC);   // added
-   // Serial.print(F(", "));   // added
+    Serial.print(buff[i], DEC);   // added
+    Serial.print(F(", "));   // added
 
     i++;
   }
